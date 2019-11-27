@@ -10,6 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       startDate: "",
+      endDate: "",
       dateArray: [],
       valueArray: []
     };
@@ -17,7 +18,7 @@ class App extends React.Component {
     this.getNewData = this.getNewData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.chartRef = React.createRef();
+    // this.chartRef = React.createRef();
   }
   handleSubmit() {
     axios
@@ -35,14 +36,17 @@ class App extends React.Component {
         this.setState({ dateArray: dateArray, valueArray: valueArray });
         console.log("STATE", this.state);
       })
+      // .then(()=>{this.getNewData(this.state.startDate,this.state.endDate)
+      // })
       .catch(err => {
         console.log(err);
       });
   }
 
-  getNewData(startDate) {
+  getNewData(startDate,endDate) {
+    
     return axios
-      .get("/bitcoin", { params: { startDate: startDate } })
+      .get("/bitcoin", { params: { startDate: startDate, endDate: endDate} })
       .then(({ data }) => {
         let dateArray = [];
         let valueArray = [];
@@ -62,7 +66,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getNewData("2013-09-01", "2013-09-05").then(() => {
+    this.getNewData("2019-11-01", "2019-11-26").then(() => {
       console.log("comp did mount", this.state);
       const myChartRef = this.chartRef.current.getContext("2d");
       new Chart(myChartRef, {
@@ -84,10 +88,28 @@ class App extends React.Component {
 
   //handle date change
   handleChange(e) {
-    const target = e.target;
+    const startDate = e.target.value;
+    const year = parseInt(startDate.slice(0,4));
+    const month = parseInt(startDate.slice(5,7));
+    let limit;
+    if ([4,6,9,11].includes(month)){
+      limit = 30;
+    } else if([1,3,5,7,8,10,12].includes(month)){
+      limit = 31;
+    } else {
+      if(year % 4 === 0){
+        limit = 29;
+      } else {
+        limit = 28;
+      }
+    }
+    const endDate = `${startDate.slice(0,8)}${limit}`;
     this.setState({
-      [target.name]: target.value
+      startDate: startDate,
+      endDate: endDate
     });
+  
+    
   }
 
   render() {
@@ -95,7 +117,7 @@ class App extends React.Component {
       <div>
         <Form
           startDate={this.state.startDate}
-          //endDate={this.state.endDate}
+          endDate={this.state.endDate}
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
         />
