@@ -8,11 +8,7 @@ export default function Form(props) {
                     start from : 
                     <input type='date' name='startDate' onChange={props.handleChange}/>
                 </label>
-                <label>
-                    to : 
-                    <input type='date' name='endDate' onChange={props.handleChange}/>
-                </label>
-                <input type='submit' value='submit'/>
+                <input type='submit' value='Show Closing Prices'/>
             </form>
         </div>
     )

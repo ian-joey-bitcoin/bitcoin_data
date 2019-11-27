@@ -9,7 +9,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       startDate: "",
-      endDate: "",
+      //endDate: "",
       labels: [],
       datasets: []
     };
@@ -28,7 +28,7 @@ class App extends React.Component {
         labels: ["Jan", "Feb", "March", "newthing"],
         datasets: [
           {
-            label: "Sales",
+            label: "Prices",
             data: [86, 67, 91]
           }
         ]
@@ -48,13 +48,6 @@ class App extends React.Component {
     })
   };
 
-  //handle submit date
-  handleSubmit() {
-    //check if start date is before end date
-    //send dates to api
-    //get data => setState for labels and datasets
-
-  }
 
 
   render() {
@@ -64,7 +57,7 @@ class App extends React.Component {
       <div>
         <Form 
           startDate={this.state.startDate}
-          endDate={this.state.endDate}
+          //endDate={this.state.endDate}
           handleChange={this.handleChange}/>
         <canvas id="myChart" ref={this.chartRef} />
       </div>
