@@ -1,14 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Chart from "chart.js";
+
 import axios from "axios";
+import Form from "./Form.jsx";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
+      startDate: "",
+      //endDate: "",
+      labels: [],
+      datasets: []
     };
     this.chartRef = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   getNewData(startDate, endDate) {
     axios
@@ -27,7 +36,7 @@ class App extends React.Component {
         labels: ["Jan", "Feb", "March", "newthing"],
         datasets: [
           {
-            label: "Sales",
+            label: "Prices",
             data: [86, 67, 91]
           }
         ]
@@ -35,10 +44,26 @@ class App extends React.Component {
       options: {}
     });
   }
+
+  //handle date change
+  handleChange(e) {
+    const target = e.target;
+    console.log({target})
+    this.setState({
+      [target.name]: target.value
+    })
+  };
+
+
+
   render() {
     console.log("RENDER", this.chartRef);
     return (
       <div>
+        <Form 
+          startDate={this.state.startDate}
+          //endDate={this.state.endDate}
+          handleChange={this.handleChange}/>
         <canvas id="myChart" ref={this.chartRef} />
       </div>
     );
