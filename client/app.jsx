@@ -1,6 +1,6 @@
 import React from "react";
-import chart from "chart.js";
 import ReactDOM from "react-dom";
+import Canvas from "./canvas.jsx";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +8,11 @@ class App extends React.Component {
   }
 
   render() {
-    return <div>Hello World! I'm a react component</div>;
+    return (
+      <div>
+        <Canvas />
+      </div>
+    );
   }
 }
 
