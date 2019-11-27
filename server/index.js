@@ -7,10 +7,10 @@ const port = 3000;
 app.use(express.json());
 
 app.get("/bitcoin", (req, res) => {
-  let params = { start: req.params.startDate, end: req.params.endDate };
+  let params = { start: req.query.startDate, end: req.query.endDate };
   axios
     .get(
-      "https://api.coindesk.com/v1/bpi/historical/close.json?start=2013-09-01&end=2016-09-05",
+      "https://api.coindesk.com/v1/bpi/historical/close.json",
       { params: params }
     )
     .then(({ data }) => {
