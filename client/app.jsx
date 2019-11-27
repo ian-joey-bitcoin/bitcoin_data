@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Chart from "chart.js";
+
 import axios from "axios";
 import moment from "moment";
+import Form from "Form.jsx";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +14,11 @@ class App extends React.Component {
     };
     this.chartRef = React.createRef();
     this.getNewData = this.getNewData.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.chartRef = React.createRef();
   }
+
   getNewData(startDate, endDate) {
     return axios
       .get("/bitcoin", { params: { startDate: startDate, endDate: endDate } })
@@ -54,9 +60,24 @@ class App extends React.Component {
       });
     });
   }
+
+  //handle date change
+  handleChange(e) {
+    const target = e.target;
+    console.log({ target });
+    this.setState({
+      [target.name]: target.value
+    });
+  }
+
   render() {
     return (
       <div>
+        <Form
+          startDate={this.state.startDate}
+          //endDate={this.state.endDate}
+          handleChange={this.handleChange}
+        />
         <canvas id="myChart" ref={this.chartRef} />
       </div>
     );
