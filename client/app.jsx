@@ -1,10 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Chart from "chart.js";
+import Form from "./Form";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      startData: null,
+      endDate: null
+    };
     this.chartRef = React.createRef();
   }
 
@@ -33,6 +38,7 @@ class App extends React.Component {
 
     return (
       <div>
+        <Form />
         <canvas id="myChart" ref={this.chartRef} />
       </div>
     );
