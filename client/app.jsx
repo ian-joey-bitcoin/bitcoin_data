@@ -38,6 +38,26 @@ class App extends React.Component {
       })
       // .then(()=>{this.getNewData(this.state.startDate,this.state.endDate)
       // })
+      .then(()=>{
+        this.getNewData(this.state.startDate, this.state.endDate).then(() => {
+          console.log("comp did mount", this.state);
+          const myChartRef = this.chartRef.current.getContext("2d");
+          new Chart(myChartRef, {
+            type: "line",
+            data: {
+              //Bring in data
+              labels: this.state.dateArray,
+              datasets: [
+                {
+                  label: "Bitcoin Price",
+                  data: this.state.valueArray
+                }
+              ]
+            },
+            options: {}
+          });
+        });
+      })
       .catch(err => {
         console.log(err);
       });
