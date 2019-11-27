@@ -1,16 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Chart from "chart.js";
-import Form from "./Form";
+import Form from "./Form.jsx";
+import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startData: null,
-      endDate: null
+      startDate: "",
+      endDate: "",
+      labels: [],
+      datasets: []
     };
     this.chartRef = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -33,12 +38,34 @@ class App extends React.Component {
       }
     });
   }
+
+  //handle date change
+  handleChange(e) {
+    const target = e.target;
+    console.log({target})
+    this.setState({
+      [target.name]: target.value
+    })
+  };
+
+  //handle submit date
+  handleSubmit() {
+    //check if start date is before end date
+    //send dates to api
+    //get data => setState for labels and datasets
+
+  }
+
+
   render() {
     let string = "<div>hi</div>";
 
     return (
       <div>
-        <Form />
+        <Form 
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          handleChange={this.handleChange}/>
         <canvas id="myChart" ref={this.chartRef} />
       </div>
     );
