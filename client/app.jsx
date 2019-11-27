@@ -20,11 +20,29 @@ class App extends React.Component {
     this.chartRef = React.createRef();
   }
   handleSubmit() {
-    this.getNewData(startDate);
+    axios
+      .get("/bitcoin", { params: { startDate: this.state.startDate } })
+      .then(({ data }) => {
+        console.log("click", this.state.startDate);
+        let dateArray = [];
+        let valueArray = [];
+        for (let obj in data.bpi) {
+          dateArray.push(obj);
+          valueArray.push(data.bpi[obj]);
+        }
+        console.log("dataArray", dateArray);
+        console.log("valueArray", valueArray);
+        this.setState({ dateArray: dateArray, valueArray: valueArray });
+        console.log("STATE", this.state);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
-  getNewData(startDate, endDate) {
+
+  getNewData(startDate) {
     return axios
-      .get("/bitcoin", { params: { startDate: startDate, endDate: endDate } })
+      .get("/bitcoin", { params: { startDate: startDate } })
       .then(({ data }) => {
         let dateArray = [];
         let valueArray = [];
@@ -67,7 +85,6 @@ class App extends React.Component {
   //handle date change
   handleChange(e) {
     const target = e.target;
-    console.log({ target });
     this.setState({
       [target.name]: target.value
     });
@@ -79,6 +96,7 @@ class App extends React.Component {
         <Form
           startDate={this.state.startDate}
           //endDate={this.state.endDate}
+          handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
         />
         <canvas id="myChart" ref={this.chartRef} />
