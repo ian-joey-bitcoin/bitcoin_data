@@ -4,11 +4,12 @@ import Chart from "chart.js";
 
 import axios from "axios";
 import moment from "moment";
-import Form from "Form.jsx";
+import Form from "./Form.jsx";
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      startDate: "",
       dateArray: [],
       valueArray: []
     };
@@ -18,7 +19,9 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.chartRef = React.createRef();
   }
-
+  handleSubmit() {
+    this.getNewData(startDate);
+  }
   getNewData(startDate, endDate) {
     return axios
       .get("/bitcoin", { params: { startDate: startDate, endDate: endDate } })
